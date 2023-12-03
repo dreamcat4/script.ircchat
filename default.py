@@ -3,20 +3,21 @@ from traceback import format_exc, print_exc
 import sys
 import os
 import threading
-import Queue
+import queue
 import ctypes
 import time
 import xbmcgui
 import xbmcaddon
+import xbmcvfs
 
 addon = xbmcaddon.Addon()
 addon_id = addon.getAddonInfo('id')
 addon_version = addon.getAddonInfo('version')
 language = addon.getLocalizedString
-addon_path = xbmc.translatePath(addon.getAddonInfo('path'))
+addon_path = xbmcvfs.translatePath(addon.getAddonInfo('path'))
 icon = os.path.join(addon_path, 'icon.png')
-chat_queue = Queue.Queue(maxsize=0)
-client_queue = Queue.Queue(maxsize=0)
+chat_queue = queue.Queue(maxsize=0)
+client_queue = queue.Queue(maxsize=0)
 action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
 
 
@@ -669,7 +670,7 @@ def addon_log(string):
     except:
         log_message = 'addonException: addon_log: %s' %format_exc()
     # for ease in development change the level to LOGNOTICE
-    xbmc.log("[%s-%s]: %s" %(addon_id, addon_version, log_message), level=xbmc.LOGNOTICE)
+    xbmc.log("[%s-%s]: %s" %(addon_id, addon_version, log_message), level=xbmc.LOGINFO)
 
 
 def get_params():
